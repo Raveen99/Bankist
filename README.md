@@ -1,6 +1,6 @@
 # Bankist
 
-This project is very basic bankist app where we will be implementing some javascript features such as:
+This project is very basic bankist application where we will be implementing some javascript features such as:
 
 1. Smooth Scrolling via button click.
 2. Event Propagation: Bubbling and Capturing.
