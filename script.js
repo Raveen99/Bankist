@@ -66,3 +66,19 @@ btnScrollTo.addEventListener("click", function (event) {
   //New Method
   window, scrollIntoView(section1);
 });
+
+//IMPLEMENTING PAGE NAVIGATION
+document
+  .querySelector(".nav__links")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log("Event: ", event.target);
+
+    if (event.target.classList.contains("nav__link")) {
+      const id = event.target.getAttribute("href");
+      console.log("Id: ", id);
+      document.querySelector(id).scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  });
