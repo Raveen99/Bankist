@@ -111,7 +111,6 @@ const handleHover = function (event, opacity) {
     const siblngs = link.closest(".nav").querySelectorAll(".nav__link");
     const logo = link.closest(".nav").querySelector("img");
 
-    console.log("This: ", this);
     siblngs.forEach((child) => {
       if (child != link) child.style.opacity = this;
     });
@@ -122,5 +121,49 @@ const handleHover = function (event, opacity) {
 
 //Passing argument to event handler
 nav.addEventListener("mouseover", handleHover.bind(0.5));
-
 nav.addEventListener("mouseout", handleHover.bind(1));
+
+//Implementing Sticky navigation using Intersection Observer API concept
+
+/* The Intersection Observer API provides a way to asynchronously observe changes in the intersection of a target element 
+with an ancestor element or with a top-level document's viewport. */
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
+
+//Reveal Sections
+
+const allSection = document.querySelectorAll(".section");
+
+const displaySection = function (entries, observer) {
+  const [entry] = entries;
+  console.log("Entry: ", entry);
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+  //console.log("Observer: ", observer);
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(displaySection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSection.forEach((section) => {
+  sectionObserver.observe(section);
+  section.classList.add("section--hidden");
+});
