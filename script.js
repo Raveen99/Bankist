@@ -13,6 +13,7 @@ const tabs = document.querySelectorAll(".operations__tab");
 const tabsContainer = document.querySelector(".operations__tab-container");
 const tabsContent = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
+const allSection = document.querySelectorAll(".section");
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -146,11 +147,8 @@ headerObserver.observe(header);
 
 //Reveal Sections
 
-const allSection = document.querySelectorAll(".section");
-
 const displaySection = function (entries, observer) {
   const [entry] = entries;
-  console.log("Entry: ", entry);
   if (!entry.isIntersecting) return;
 
   entry.target.classList.remove("section--hidden");
@@ -167,3 +165,30 @@ allSection.forEach((section) => {
   sectionObserver.observe(section);
   section.classList.add("section--hidden");
 });
+
+//lazy Loading images
+
+const allImages = document.querySelectorAll("img[data-src]");
+
+const displayImg = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+
+  entry.target.src = entry.target.dataset.src;
+
+  /*We cannot direct remove blur class because javascript is loading these images in background and if we remove blur class 
+  if device network is slow then image will be displayed but it will still be in low quality and we don't want to show this to our user.
+  So, we will capture laod event returned by javascript here. */
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
+  });
+  observer.unobserve(entry.target);
+};
+
+const imageObserver = new IntersectionObserver(displayImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: "300px",
+});
+
+allImages.forEach((img) => imageObserver.observe(img));
