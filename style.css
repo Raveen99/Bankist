@@ -272,7 +272,7 @@ h4 {
 
 /* OPERATIONS */
 .operations {
-  max-width: 100rem;
+  max-width: 110rem;
   margin: 12rem auto 0 auto;
 
   background-color: #fff;
@@ -332,7 +332,7 @@ h4 {
 
 .operations__header {
   font-size: 2.25rem;
-  font-weight: 500;
+  font-weight: 600;
   align-self: center;
 }
 
